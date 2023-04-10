@@ -15,26 +15,24 @@ const Course = ({ courses }) => {
 
   const Content = ({ courses }) => (
     <>
-      <ul>
-        {courses[0].parts.map((course) => (
-          <li key={course.id}>
-            {course.name} {course.exercises}
-          </li>
-        ))}
-      </ul>
+      {courses[0].parts.map((course) => (
+        <p key={course.id}>
+          {course.name} {course.exercises}
+        </p>
+      ))}
     </>
   );
 
   const Total = ({ courses }) => {
     const sum = courses[0].parts.reduce(
-      (previousValue, currentValue) => previousValue + currentValue.exercises,
+      (accumulator, currentValue) => accumulator + currentValue.exercises,
       0
     );
 
     return (
       <>
         <p>
-          <b>Total of {sum}</b>
+          <b>Total of {sum} exercises</b>
         </p>
       </>
     );
@@ -44,27 +42,28 @@ const Course = ({ courses }) => {
     return (
       <>
         <h3>
-          <b>{courses[1].name}</b>
+          <b>{courses[1].name} </b>
         </h3>
-        <ul>
-          {courses[1].parts.map((course) => (
-            <li key={course.id}>{course.name}</li>
-          ))}
-        </ul>
+
+        {courses[1].parts.map((course) => (
+          <p key={course.id}>
+            {course.name} {course.exercises}
+          </p>
+        ))}
       </>
     );
   };
 
   const TotalMore = ({ courses }) => {
     const sum = courses[1].parts.reduce(
-      (previousValue, currentValue) => previousValue + currentValue.exercises,
+      (accumulator, currentValue) => accumulator + currentValue.exercises,
       0
     );
 
     return (
       <>
         <p>
-          <b>Total of {sum}</b>
+          <b>Total of {sum} exercises</b>
         </p>
       </>
     );
