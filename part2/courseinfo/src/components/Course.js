@@ -38,7 +38,7 @@ const Course = ({ courses }) => {
     );
   };
 
-  const MoreContent = ({ courses }) => {
+  const ExtraContent = ({ courses }) => {
     return (
       <>
         <h3>
@@ -54,7 +54,7 @@ const Course = ({ courses }) => {
     );
   };
 
-  const TotalMore = ({ courses }) => {
+  const TotalExtraContent = ({ courses }) => {
     const sum = courses[1].parts.reduce(
       (accumulator, currentValue) => accumulator + currentValue.exercises,
       0
@@ -75,8 +75,8 @@ const Course = ({ courses }) => {
       <Header courses={courses} />
       <Content courses={courses} />
       <Total courses={courses} />
-      <MoreContent courses={courses} />
-      <TotalMore courses={courses} />
+      <ExtraContent courses={courses} />
+      <TotalExtraContent courses={courses} />
     </>
   );
 };
