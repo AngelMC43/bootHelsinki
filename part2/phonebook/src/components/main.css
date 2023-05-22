@@ -1,0 +1,12 @@
+.buttonDel {
+    border: 1px solid black;
+    border-radius: 5px;
+    background: transparent;
+    height: 17px;
+}
+
+.buttonDel:hover {
+    background-color: rgb(145, 187, 238);
+}
+
+.buttonDel:focus {background-color: rgb(72, 114, 251);}

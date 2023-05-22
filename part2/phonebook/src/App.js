@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonsForm";
 import Person from "./components/Persons";
+import noteService from "./services/notes";
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,24 +12,40 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+    noteService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
 
-  const newNote = { name: newName, number: newNumber, id: persons.length + 1 };
+  const newPerson = {
+    name: newName,
+    number: newNumber,
+    id: persons.length + 1,
+  };
+
+  const deletePerson = (id) => {
+    const answer = window.confirm(`Delete ${id.name} ?`);
+    answer &&
+      noteService.deletePerson(id).then(
+        noteService.getAll().then((initialPersons) => {
+          setPersons(initialPersons);
+        })
+      );
+  };
 
   const addPerson = (e) => {
     e.preventDefault();
 
     persons.find((person) => person.name === newName)
       ? alert(`${newName} already exists`)
-      : alert(
+      : noteService.create(newPerson).then((response) => {
+          setNewName("");
+          setNewNumber("");
+        }) &&
+        alert(
           `${newName} added to the phonebook`,
-          setPersons(persons.concat(newNote))
+          setPersons(persons.concat(newPerson))
         );
-    setNewName("");
-    setNewNumber("");
   };
 
   const handleNoteChange = (event) => {
@@ -62,7 +79,11 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Person persons={persons} newSearch={newSearch} />
+      <Person
+        persons={persons}
+        newSearch={newSearch}
+        deletePerson={deletePerson}
+      />
     </div>
   );
 };

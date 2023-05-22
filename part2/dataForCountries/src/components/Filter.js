@@ -10,7 +10,7 @@ export default function Filter({
   const handleButton = (country) => {
     setSingle(single === country ? null : country);
   };
-  console.log(weather);
+
   return (
     <>
       <div>
