@@ -1,13 +1,6 @@
 import "./main.css";
 
 export default function Person({ persons, newSearch, deletePerson }) {
-  // const dletePerson = (user) => {
-  //   const personToDelete = persons.find((person) => person.id === user.id);
-  //   const decision = window.confirm(`Delete ${personToDelete.name}`);
-  //   if (decision) return deletePerson;
-  //   console.log("aa", window.confirm());
-  // };
-
   return (
     <>
       <ul>

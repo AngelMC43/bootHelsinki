@@ -3,7 +3,6 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonsForm";
 import Person from "./components/Persons";
 import noteService from "./services/notes";
-import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -17,12 +16,6 @@ const App = () => {
     });
   }, []);
 
-  const newPerson = {
-    name: newName,
-    number: newNumber,
-    id: persons.length + 1,
-  };
-
   const deletePerson = (id) => {
     const answer = window.confirm(`Delete ${id.name} ?`);
     answer &&
@@ -33,19 +26,50 @@ const App = () => {
       );
   };
 
+  const updatePerson = (id) => {
+    const answer = window.confirm(
+      `${newName} is already added to the phonebook, replace the old number with a new one?`
+    );
+
+    if (answer) {
+      const updateNumber = {
+        name: newName,
+        number: newNumber,
+        id,
+      };
+
+      noteService.update(id, updateNumber).then((returned) => {
+        setPersons(
+          persons.map((person) => (person.id === id ? returned : person))
+        );
+      });
+      setNewName("");
+      setNewNumber("");
+    }
+  };
+
   const addPerson = (e) => {
     e.preventDefault();
 
-    persons.find((person) => person.name === newName)
-      ? alert(`${newName} already exists`)
-      : noteService.create(newPerson).then((response) => {
-          setNewName("");
-          setNewNumber("");
-        }) &&
-        alert(
-          `${newName} added to the phonebook`,
-          setPersons(persons.concat(newPerson))
-        );
+    const findPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
+
+    if (findPerson) return updatePerson(findPerson.id);
+
+    const newPerson = {
+      name: newName.toLowerCase(),
+      number: newNumber,
+    };
+
+    noteService.create(newPerson).then(() => {
+      setNewName("");
+      setNewNumber("");
+      alert(
+        `${newName} added to the phonebook`,
+        setPersons(persons.concat(newPerson))
+      );
+    });
   };
 
   const handleNoteChange = (event) => {

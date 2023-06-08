@@ -20,7 +20,6 @@ const App = () => {
 
   const capitalWeather = filterCountries[0]?.capital;
   const countryWeather = filterCountries[0]?.name;
-  console.log(process.env.REACT_APP_API_KEY);
 
   useEffect(() => {
     axios

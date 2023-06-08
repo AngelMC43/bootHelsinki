@@ -15,7 +15,7 @@ export default function PersonsForm({
 
         <div>
           <div>
-            Number:{" "}
+            Number:
             <input
               type="text"
               onChange={handleNumberChange}
